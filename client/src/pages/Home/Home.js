@@ -2,15 +2,30 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
 // import { Redirect } from 'react-router-dom'
 
 import AccountForm from '../../components/AccountForm'
 
 import styles from './styles'
 
-const Home = ({ classes }) => {
-  return (
+const GET_TAGS = gql`
+  {
+    tags{
+      id
+      title
+    }
+  }
+`;
+
+const Home = ({ classes }) => (
+  <Query query={GET_TAGS}>
+  {({loading,error,data})=>{
+    if(loading) return 'Loading...';
+    if(error) return `Error! ${error.message}`
+
+  return(
     <Grid
       container
       className={classes.root}
@@ -18,6 +33,9 @@ const Home = ({ classes }) => {
       alignItems="center"
       justify="center"
     >
+    {
+      console.log(data)
+    }
       <Grid item xs={12} sm={12} md={6}>
         <Typography
           variant="button"
@@ -36,8 +54,9 @@ const Home = ({ classes }) => {
         </Typography>
         <AccountForm />
       </Grid>
-    </Grid>
-  )
-}
+    </Grid>);}}
+    </Query>
+  );
+  
 
 export default withStyles(styles)(Home)

@@ -91,6 +91,11 @@ module.exports = function(postgres) {
       // -------------------------------
     },
     async getItems(idToOmit) {
+      let text = 'SELECT * FROM items'
+      if(idToOmit) {
+        text='SELECT * FROM items WHERE items.ownerid != $1 AND items.borrowerid is NULL'
+      }
+      try{
       const items = await postgres.query({
         /**
          *  @TODO: Advanced queries
@@ -103,10 +108,14 @@ module.exports = function(postgres) {
          *  to your query text using string interpolation
          */
 
-        text: `SELECT * FROM items ${idToOmit ? 'WHERE items.ownerid != $1': ''}`,
+
+        text: text,
         values: idToOmit ? [idToOmit] : []
       })
-      return items.rows
+      return items.rows}
+      catch(e) {
+        throw 'no items'
+      }
     },
     async getItemsForUser(id) {
       const items = await postgres.query({
@@ -125,7 +134,7 @@ module.exports = function(postgres) {
          *  @TODO: Advanced queries
          *  Get all Items. Hint: You'll need to use a LEFT INNER JOIN among others
          */
-        text: ``,
+        text: `SELECT * FROM items WHERE items.ownerid = $1;`,
         values: [id]
       })
       return items.rows

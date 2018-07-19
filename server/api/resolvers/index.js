@@ -52,9 +52,9 @@ module.exports = function(app) {
           throw new ApolloError(e)
         }
       },
-      async items(parent,{id},{pgResource}, info) {
+      async items(parent,{filter},{pgResource}, info) {
         try {
-          const items = await pgResource.getItems(id)
+          const items = await pgResource.getItems(filter)
           return items
         } catch (e) {
           throw new ApolloError(e)
@@ -92,11 +92,12 @@ module.exports = function(app) {
          return items;
       //   // -------------------------------
        },
-      // borrowed() {
+      borrowed(parent, args, {pgResource}, info) {
+        const borrowed = pgResource.getBorrowedItemsForUser(parent.id)
       //   // @TODO: Replace this mock return statement with the correct items from Postgres
-      //   return []
+      return borrowed;
       //   // -------------------------------
-      // }
+      }
       // -------------------------------
     },
 
@@ -128,7 +129,7 @@ module.exports = function(app) {
         return tagslist
         // -------------------------------
       },
-      // async borrower() {
+      //async borrower() {
       //   /**
       //    * @TODO: Replace this mock return statement with the correct user from Postgres
       //    * or null in the case where the item has not been borrowed.
