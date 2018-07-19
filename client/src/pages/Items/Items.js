@@ -1,14 +1,27 @@
 import { withStyles } from '@material-ui/core/styles'
 import React from 'react'
+import ItemsContainer from '../../containers/ItemsContainer'
 
 import styles from './styles'
 
 const Items = ({ classes }) => {
   return (
     <div>
-      <p>
-        This is the items page located at <code>/items</code>.
-      </p>
+      <ItemsContainer>
+        {
+          ({itemsData: {loading, error, data}}) => {
+            
+              if(loading) return 'Loading...'
+              if(error) return `Error! ${error.message}`
+              return (
+                data.items.map(item => {
+                  return <div>{item.title}</div>
+                })
+              
+            )
+          }
+        }
+      </ItemsContainer>
     </div>
   )
 }

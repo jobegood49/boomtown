@@ -6,7 +6,6 @@ import gql from 'graphql-tag'
 
 const ItemFields = gql`
   fragment ItemFields on Item {
-    
     id
     title
     imageurl
@@ -14,7 +13,8 @@ const ItemFields = gql`
     created
     tags {
       id
-      title}
+      title
+    }
     itemowner {
       id
       fullname
@@ -39,12 +39,14 @@ export const ITEM_QUERY = gql`
   ${ItemFields}
 `
 
-// export const ALL_ITEMS_QUERY = gql`
-//   query items($filter: ID) {
-//     # @TODO: Query items (optionally by tag id) and return the ItemFields fragment.
-//   }
-//   ${ItemFields}
-// `
+export const ALL_ITEMS_QUERY = gql`
+  query AllItems($filter: ID) {
+    items(filter: $filter) {
+      ...ItemFields
+    }
+  }
+  ${ItemFields}
+`
 
 // export const ALL_USER_ITEMS_QUERY = gql`
 //   query user($id: ID!) {

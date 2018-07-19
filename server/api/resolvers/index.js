@@ -113,30 +113,27 @@ module.exports = function(app) {
        *
        */
       // @TODO: Uncomment these lines after you define the Item type with these fields
-      // async itemowner() {
+      async itemowner(parent, args, {pgResource}, info) {
       //   // @TODO: Replace this mock return statement with the correct user from Postgres
-      //   return {
-      //     id: 29,
-      //     fullname: "Mock user",
-      //     email: "mock@user.com",
-      //     bio: "Mock user. Remove me."
-      //   }
+        const itemowner = pgResource.getUserById(parent.ownerid)
+        return itemowner
       //   // -------------------------------
-      // },
+       },
       async tags(parent, args, {pgResource}, info) {
         // @TODO: Replace this mock return statement with the correct tags for the queried Item from Postgres
         const tagslist = pgResource.getTagsForItem(parent.id)
         return tagslist
         // -------------------------------
       },
-      //async borrower() {
+      async borrower(parent, args, {pgResource}, info) {
       //   /**
       //    * @TODO: Replace this mock return statement with the correct user from Postgres
       //    * or null in the case where the item has not been borrowed.
       //    */
-      //   return null
+      const borrower = pgResource.getUserById(parent.borrowerid)
+      return borrower
       //   // -------------------------------
-      // },
+      },
       // async imageurl({ imageurl, imageid, mimetype, data }) {
       //   if (imageurl) return imageurl
       //   if (imageid) {
