@@ -5,9 +5,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 // @TODO: Uncomment each module as needed in your client app
 import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter } from 'react-router-dom'
-// import { Provider as ReduxProvider } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
 // -------------------------------
-
 
 import client from './apollo'
 
@@ -50,6 +49,8 @@ import Routes from './routes'
  * prop's value.
  */
 
+import store from './redux'
+
 /**
  * @TODO: Add the Viewer Context
  *
@@ -65,17 +66,22 @@ import Home from './pages/Home'
 // -------------------------------
 
 import './index.css'
+import { ViewerProvider } from './context/ViewerProvider'
 
 const App = () => {
   return (
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      <ApolloProvider client={client}>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
-      </ApolloProvider>
-    </MuiThemeProvider>
+    <ReduxProvider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <ApolloProvider client={client}>
+          <ViewerProvider>
+            <BrowserRouter>
+              <Routes />
+            </BrowserRouter>
+          </ViewerProvider>
+        </ApolloProvider>
+      </MuiThemeProvider>
+    </ReduxProvider>
   )
 }
 

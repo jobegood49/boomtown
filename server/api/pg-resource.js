@@ -21,7 +21,8 @@ module.exports = function(postgres) {
   return {
     async createUser({ fullname, email, password }) {
       const newUserInsert = {
-        text: '', // @TODO: Authentication - Server
+        text:
+          'INSERT INTO users(fullname,email,password) VALUES($1,$2,$3) RETURNING *', // @TODO: Authentication - Server
         values: [fullname, email, password]
       }
       try {
@@ -40,7 +41,7 @@ module.exports = function(postgres) {
     },
     async getUserAndPasswordForVerification(email) {
       const findUserQuery = {
-        text: '', // @TODO: Authentication - Server
+        text: 'SELECT * FROM users WHERE email = $1', // @TODO: Authentication - Server
         values: [email]
       }
       try {
@@ -69,6 +70,7 @@ module.exports = function(postgres) {
        *  3) If the user is found and there are no errors, return only the id, email, fullname, bio fields.
        *     -- this is important,don't return the password!
        *
+       *
        *  You'll need to complete the query first before attempting this exercise.
        */
 
@@ -87,33 +89,33 @@ module.exports = function(postgres) {
        */
 
       const user = await postgres.query(findUserQuery)
-      return user.rows[0];
+      return user.rows[0]
       // -------------------------------
     },
     async getItems(idToOmit) {
       let text = 'SELECT * FROM items'
-      if(idToOmit) {
-        text='SELECT * FROM items WHERE items.ownerid != $1 AND items.borrowerid is NULL'
+      if (idToOmit) {
+        text =
+          'SELECT * FROM items WHERE items.ownerid != $1 AND items.borrowerid is NULL'
       }
-      try{
-      const items = await postgres.query({
-        /**
-         *  @TODO: Advanced queries
-         *
-         *  Get all Items. If the idToOmit parameter has a value,
-         *  the query should only return Items were the ownerid column
-         *  does not contain the 'idToOmit'
-         *
-         *  Hint: You'll need to use a conditional AND and WHERE clause
-         *  to your query text using string interpolation
-         */
+      try {
+        const items = await postgres.query({
+          /**
+           *  @TODO: Advanced queries
+           *
+           *  Get all Items. If the idToOmit parameter has a value,
+           *  the query should only return Items were the ownerid column
+           *  does not contain the 'idToOmit'
+           *
+           *  Hint: You'll need to use a conditional AND and WHERE clause
+           *  to your query text using string interpolation
+           */
 
-
-        text: text,
-        values: idToOmit ? [idToOmit] : []
-      })
-      return items.rows}
-      catch(e) {
+          text: text,
+          values: idToOmit ? [idToOmit] : []
+        })
+        return items.rows
+      } catch (e) {
         throw 'no items'
       }
     },
@@ -207,7 +209,8 @@ module.exports = function(postgres) {
                   text:
                     'INSERT INTO uploads (itemid, filename, mimetype, encoding, data) VALUES ($1, $2, $3, $4, $5) RETURNING *',
                   values: [
-                    // itemid,
+                    // itemid, newItem.row[Ø]
+                    // add the id from the newly inserted item here
                     image.filename,
                     image.mimetype,
                     'base64',

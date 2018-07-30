@@ -3,7 +3,7 @@ import { Query, Mutation } from 'react-apollo'
 import React from 'react'
 
 // @TODO: Uncommment this line when the ViewerProvider is added to the app.
-// import { ViewerContext } from '../context/ViewerProvider'
+import { ViewerContext } from '../context/ViewerProvider'
 // -------------------------------
 
 import {
@@ -26,24 +26,36 @@ const itemsData = ({ render }) => {
   return (<Query query={ALL_ITEMS_QUERY}>
   {({loading, error, data}) => render({loading, error, data})}
   </Query>)
+
+  
+
+
+
 }
 
-const userItemsData = ({ userId, render }) => {
+// const userItemsData = ({ userId, render }) => {
   /**
    * @TODO: Use Apollo's <Query /> component to fetch all of a user's items.
    *
    * Note: Your query will need to retrieve only items that belong to a
    * specific user id.
    */
-  return undefined
-}
 
-const tagData = ({ render }) => {
+//   return (<Query query={ALL_USER_ITEMS_QUERY} variables={{id: userId || null}}>
+//   {({loading, error, data}) => render({loading, error, data})}
+//   </Query>)
+// }
+
+ const tagData = ({ render }) => {
   /**
    * @TODO: Use Apollo's <Query /> component to fetch all the tags.
    */
-  return undefined
-}
+  console.log(ALL_TAGS_QUERY)
+  
+   return (<Query query={ALL_TAGS_QUERY}>
+     {({loading, error, data}) => render({loading, error, data})}
+    </Query>)
+ }
 
 const addItem = ({ render }) => {
   /**
@@ -56,9 +68,9 @@ const addItem = ({ render }) => {
 }
 const ItemsContainer = adopt({
   // @TODO: Uncomment each line as you write the corresponding query.
-  // tagData,
-  itemsData
-  // userItemsData,
+  tagData,
+  itemsData,
+  //userItemsData,
   // addItem
   // -------------------------------
 })

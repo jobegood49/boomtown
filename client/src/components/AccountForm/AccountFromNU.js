@@ -1,13 +1,13 @@
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import FormControl from '@material-ui/core/FormControl'
-import Grid from '@material-ui/core/Grid'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import React, { Component } from 'react'
-import Typography from '@material-ui/core/Typography'
-import { Form, Field } from 'react-final-form'
-import AuthContainer from '../../containers/AuthContainer'
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import React, { Component } from 'react';
+import Typography from '@material-ui/core/Typography';
+import { Form, Field } from 'react-final-form';
+import AuthContainer from '../../containers/AuthContainer';
 /**
  * @TODO: Uncomment the following lines when authentication is added to the form
  *
@@ -17,26 +17,26 @@ import AuthContainer from '../../containers/AuthContainer'
  * import validate from './helpers/validation'
  */
 
-import styles from './styles'
+import styles from './styles';
 
 class AccountForm extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       formToggle: true
-    }
+    };
   }
 
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
       <AuthContainer>
         {({ login, signup, data, loading, error }) => {
           if (loading) {
-            return 'loading...'
+            return 'loading...';
           }
           if (error) {
-            return 'error'
+            return 'error';
           }
           return (
             <Form
@@ -128,7 +128,7 @@ class AccountForm extends Component {
                             // @TODO: Reset the form on submit
                             this.setState({
                               formToggle: !this.state.formToggle
-                            })
+                            });
                           }}
                         >
                           {this.state.formToggle
@@ -145,13 +145,13 @@ class AccountForm extends Component {
                 </form>
               )}
             />
-          )
+          );
         }}
       </AuthContainer>
       // @TODO: Close Final Form <Form />
       // @TODO: Close <AuthContainer />
-    )
+    );
   }
 }
 
-export default withStyles(styles)(AccountForm)
+export default withStyles(styles)(AccountForm);

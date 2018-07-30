@@ -15,9 +15,11 @@
  */
 const { ApolloError } = require('apollo-server')
 
+const jwt = require('jsonwebtoken')
+
 // @TODO: Uncomment these lines later when we add auth
 // const jwt = require("jsonwebtoken")
-// const authMutations = require("./auth")
+const authMutations = require("./auth")
 // -------------------------------
 const { UploadScalar, DateScalar } = require('../custom-types')
 
@@ -27,7 +29,12 @@ module.exports = function(app) {
     //Date: DateScalar,
 
     Query: {
-      viewer() {
+      viewer(parent, args, context, info) {
+        if(context.token) {
+          console.log('in resolvers index viewer', context.token)
+          console.log("viewer", args )
+          return jwt.decode(context.token, app.get('JWT_SECRET'))
+        }
         /**
          * @TODO: Authentication - Server
          *
@@ -145,7 +152,7 @@ module.exports = function(app) {
 
     Mutation: {
       // @TODO: Uncomment this later when we add auth
-      // ...authMutations(app),
+      ...authMutations(app),
       // -------------------------------
 
       async addItem(parent, args, context, info) {

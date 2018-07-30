@@ -9,35 +9,60 @@ import {
   LOGIN_MUTATION,
   LOGOUT_MUTATION,
   SIGNUP_MUTATION
-} from '../ApolloClient/queries'
+} from '../apollo/queries'
 
 const signup = ({ render }) => {
   /**
    * @TODO: Use Apollo's <Mutation /> component to use the signup mutation.
    */
-  return undefined
-}
+  console.log("in signup")
+  return (
+    <Mutation
+      mutation={SIGNUP_MUTATION}
+      refetchQueries={result => [{ query: VIEWER_QUERY }]}
+    >
+      {(mutation, data, loading, error) =>
+        render({ mutation, data, loading, error })
+      }
+    </Mutation>
+  );
+};
 
 const login = ({ render }) => {
   /**
    * @TODO: Use Apollo's <Mutation /> component to use the login mutation.
    */
-  return undefined
-}
+  return (
+    <Mutation
+      mutation={LOGIN_MUTATION}
+      refetchQueries={result => [{ query: VIEWER_QUERY }]}
+    >
+      {(mutation, { data, loading, error }) =>
+        render({ mutation, data, loading, error })
+      }
+    </Mutation>
+  );
+};
 
 const logout = ({ render }) => {
   /**
    * @TODO: Use Apollo's <Mutation /> component to use the logout mutation.
    */
-  return undefined
-}
+  return (
+    <Mutation mutation={LOGOUT_MUTATION}>
+      {(mutation, { data, loading, error }) =>
+        render({ mutation, data, loading, error })
+      }
+    </Mutation>
+  );
+};
 
 const AuthContainer = adopt({
   // @TODO: Uncomment each line as you write the corresponding query.
-  // signup,
-  // login,
-  // logout
+  signup,
+  login,
+  logout
   // -------------------------------
-})
+});
 
-export default AuthContainer
+export default AuthContainer;

@@ -49,6 +49,10 @@ module.exports = function(app) {
    *  For example: app.set('PG_HOST', process.env.PG_HOST || 'localhost')
    */
 
+  app.set('JWT_COOKIE_NAME', 'toto')
+  app.set('JWT_SECRET', 'totosecret')
+
+
   app.use(cookieParser())
 
   if (process.env.NODE_ENV === 'production') {
