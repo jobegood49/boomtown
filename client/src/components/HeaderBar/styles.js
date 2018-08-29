@@ -13,6 +13,17 @@ const styles = theme => ({
     display: 'inline',
     maxHeight: '50px',
     margin: '10px'
+  },
+  shareButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 20
+  },
+  toolBar:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between'
   }
 })
 

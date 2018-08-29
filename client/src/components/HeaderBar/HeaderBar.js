@@ -19,11 +19,13 @@ const HeaderBar = ({ classes }) => {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar className={classes.toolBar}>
           <Link to="/">
             <img src={Logo} alt="Boomtown Logo" className={classes.logo} />
           </Link>
-          <ShareButton />
+          <Link to="/share" className={classes.shareButton}>
+            <ShareButton />
+          </Link>
         </Toolbar>
       </AppBar>
     </div>
