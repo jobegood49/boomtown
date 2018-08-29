@@ -16,7 +16,14 @@ const Items = ({ classes }) => {
             if (loading) return 'Loading...'
             if (error) return `Error! ${error.message}`
             return data.items.map(item => (
-              <Grid key={item.id} item xs={12} md={6} lg={4} className={classes.itemCard}>
+              <Grid
+                key={item.id}
+                item
+                xs={12}
+                md={6}
+                lg={4}
+                className={classes.itemCard}
+              >
                 <ItemCard item={item} />
               </Grid>
             ))

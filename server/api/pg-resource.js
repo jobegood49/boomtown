@@ -93,10 +93,19 @@ module.exports = function(postgres) {
       // -------------------------------
     },
     async getItems(idToOmit) {
-      let text = 'SELECT * FROM items'
+      let text = `SELECT item.id, item.title,item.description,item.created, item.ownerid, item.borrowerid, up.data as imageurl 
+      FROM items item
+      INNER JOIN uploads up
+      ON up.itemid = item.id
+      ORDER BY item.created DESC`
       if (idToOmit) {
-        text =
-          'SELECT * FROM items WHERE items.ownerid != $1 AND items.borrowerid is NULL'
+        
+        text = `SELECT item.id, item.title,item.description,item.created, item.ownerid, item.borrowerid, up.data as imageurl 
+        FROM items item
+        INNER JOIN uploads up
+        ON up.itemid = item.id
+        WHERE item.ownerid <> $1 AND item.borrowerid IS NULL
+        ORDER BY item.created DESC`
       }
       try {
         const items = await postgres.query({

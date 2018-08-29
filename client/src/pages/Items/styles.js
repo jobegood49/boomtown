@@ -3,6 +3,9 @@ const styles = theme => ({
       flexGrow: 1,
       height: '100%',
       background: theme.palette.secondary.main,
+    },
+    itemCard: {
+      padding: '5px'
     }
       
 })
