@@ -1,39 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
 import styles from './styles'
 import Gravatar from 'react-gravatar'
+import {
+  withStyles,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Typography,
+  Button,
+  CardHeader
+} from '@material-ui/core'
 
 const ItemCard = ({ classes, item }) => {
-  const itemTags = item.tags.map(tag => tag.title)
-
   return (
     <div>
       <Card className={classes.card}>
-        {console.log(item.imageurl)}
         <CardMedia className={classes.media} image={item.imageurl} />
-        <CardContent>
+        <CardHeader
+          avatar={
+            <Gravatar className={classes.avatar} email={item.itemowner.email} className={classes.avatar}/>
+          }
+          title={item.itemowner.fullname}
+          subheader="time waits for no one"
+          className={classes.header}
+        />
+        <CardContent className={classes.content}>
           <Typography gutterBottom variant="headline" component="h2">
             {item.title}
           </Typography>
           <Typography component="p">{item.description}</Typography>
         </CardContent>
         <Typography component="p" variant="caption">
-          {itemTags.join(', ')}
+          {item.tags.map(tag => tag.title).join(', ')}
         </Typography>
-        <Gravatar
-          email=""
-          size={100}
-          rating="pg"
-          default="monsterid"
-          className="CustomAvatar-image"
-        />
+
         <CardActions>
           <Button size="small" color="primary">
             Borrow
