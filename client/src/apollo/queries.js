@@ -6,15 +6,14 @@ import gql from 'graphql-tag'
 
 export const VIEWER_QUERY = gql`
   query {
-  viewer {
-    id
-    email
-    fullname
-    bio
+    viewer {
+      id
+      email
+      fullname
+      bio
+    }
   }
-}
 `
-
 
 const ItemFields = gql`
   fragment ItemFields on Item {
@@ -31,11 +30,14 @@ const ItemFields = gql`
       id
       fullname
       email
-      bio}
-    borrower {id
+      bio
+    }
+    borrower {
+      id
       fullname
       email
-      bio}
+      bio
+    }
     #
     # See the Apollo docs for instructions on how to use fragments:
     # https://www.apollographql.com/docs/angular/features/fragments.html
@@ -81,13 +83,24 @@ export const ALL_USER_ITEMS_QUERY = gql`
 
 export const ALL_TAGS_QUERY = gql`
   query {
-  tags {
-    id
-    title
+    tags {
+      id
+      title
+    }
   }
-}
 `
 
+export const ADD_ITEM_MUTATION = gql`
+  mutation addItem($item: NewItemInput!, $image: Upload!) {
+    addItem(item: $item, image: $image) {
+      id
+    }
+  }
+`
+
+/**
+ * Auth-related queries and mutations.
+ */
 
 // export const ADD_ITEM_MUTATION = gql`
 //   mutation addItem($item: NewItemInput!, $image: Upload!) {
@@ -118,17 +131,16 @@ export const SIGNUP_MUTATION = gql`
   mutation signup($user: SignUpInput!) {
     # @TODO: Pass the user into the signup mutation as an argument
     # and return the id of the new user when the mutation is complete.
-    signup(user:$user){
+    signup(user: $user) {
       id
     }
   }
 `
 
 export const LOGIN_MUTATION = gql`
-    # @TODO: Pass the user into the login mutation as an argument
-    # and return the id of the new user when the mutation is complete.
-    mutation($user: LoginInput!){
-      login(user: $user)
-    }
-  
+  # @TODO: Pass the user into the login mutation as an argument
+  # and return the id of the new user when the mutation is complete.
+  mutation($user: LoginInput!) {
+    login(user: $user)
+  }
 `

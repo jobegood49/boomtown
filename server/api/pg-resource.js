@@ -157,6 +157,7 @@ module.exports = function(postgres) {
       return tags.rows
     },
     async saveNewItem({ item, image, user }) {
+    
       /**
        *  @TODO: Adding a New Item
        *
@@ -186,54 +187,69 @@ module.exports = function(postgres) {
             // Begin postgres transaction
             client.query('BEGIN', err => {
               // Convert image (file stream) to Base64
-              const imageStream = image.stream.pipe(strs('base64'))
+              const imageStream = image.stream.pipe(strs('base64'));
 
-              let base64Str = ''
+              let base64Str = 'data:image/*;base64, ';
               imageStream.on('data', data => {
-                base64Str += data
-              })
+                base64Str += data;
+              });
 
               imageStream.on('end', async () => {
                 // Image has been converted, begin saving things
-                const { title, description, tags } = item
+                const { title, description, tags } = item;
 
+                const newItemInsert = {
+                  text: `
+                    INSERT INTO items (title,description, ownerid) VALUES ($1, $2, $3)
+                    RETURNING *`,
+                  values: [title, description, user.id]
+                };
                 // Generate new Item query
                 // @TODO
                 // -------------------------------
 
                 // Insert new Item
-                // @TODO
+
+                const newItem = await client.query(newItemInsert);
+                const itemid = newItem.rows[0].id;
+
                 // -------------------------------
 
                 const imageUploadQuery = {
                   text:
                     'INSERT INTO uploads (itemid, filename, mimetype, encoding, data) VALUES ($1, $2, $3, $4, $5) RETURNING *',
                   values: [
-                    // itemid, newItem.row[Ø]
-                    // add the id from the newly inserted item here
+                    itemid,
                     image.filename,
                     image.mimetype,
                     'base64',
                     base64Str
                   ]
+                };
+                try {
+                  // Upload image
+                  await client.query(imageUploadQuery);
+                } catch (e) {
+                  console.log(e);
                 }
-
-                // Upload image
-                const uploadedImage = await client.query(imageUploadQuery)
-                const imageid = uploadedImage.rows[0].id
-
-                // Generate image relation query
-                // @TODO
-                // -------------------------------
-
-                // Insert image
-                // @TODO
-                // -------------------------------
 
                 // Generate tag relationships query (use the'tagsQueryString' helper function provided)
                 // @TODO
                 // -------------------------------
-
+                const tagsQuery = {
+                  text: `
+                    INSERT INTO item_tags(tagid, itemid) VALUES ${tagsQueryString(
+                      [...tags],
+                      itemid,
+                      ''
+                    )}`,
+                  values: tags.map(tag => tag.id)
+                };
+                try {
+                  await client.query(tagsQuery);
+                } catch (e) {
+                  console.log(e);
+                }
                 // Insert tags
                 // @TODO
                 // -------------------------------
@@ -241,34 +257,35 @@ module.exports = function(postgres) {
                 // Commit the entire transaction!
                 client.query('COMMIT', err => {
                   if (err) {
-                    throw err
+                    throw err;
                   }
                   // release the client back to the pool
-                  done()
+                  done();
                   // Uncomment this resolve statement when you're ready!
-                  // resolve(newItem.rows[0])
+                  resolve(newItem.rows[0]);
                   // -------------------------------
-                })
-              })
-            })
+                });
+              });
+            });
           } catch (e) {
             // Something went wrong
             client.query('ROLLBACK', err => {
               if (err) {
-                throw err
+                throw err;
               }
               // release the client back to the pool
-              done()
-            })
+              done();
+            });
             switch (true) {
               case /uploads_itemid_key/.test(e.message):
-                throw 'This item already has an image.'
+                throw 'This item already has an image.';
               default:
-                throw e
+                throw e;
             }
           }
-        })
-      })
+        });
+      });
     }
+	
   }
 }

@@ -19,7 +19,7 @@ const jwt = require('jsonwebtoken')
 
 // @TODO: Uncomment these lines later when we add auth
 // const jwt = require("jsonwebtoken")
-const authMutations = require("./auth")
+const authMutations = require('./auth')
 // -------------------------------
 const { UploadScalar, DateScalar } = require('../custom-types')
 
@@ -30,9 +30,9 @@ module.exports = function(app) {
 
     Query: {
       viewer(parent, args, context, info) {
-        if(context.token) {
+        if (context.token) {
           console.log('in resolvers index viewer', context.token)
-          console.log("viewer", args )
+          console.log('viewer', args)
           return jwt.decode(context.token, app.get('JWT_SECRET'))
         }
         /**
@@ -59,7 +59,7 @@ module.exports = function(app) {
           throw new ApolloError(e)
         }
       },
-      async items(parent,{filter},{pgResource}, info) {
+      async items(parent, { filter }, { pgResource }, info) {
         try {
           const items = await pgResource.getItems(filter)
           return items
@@ -68,15 +68,15 @@ module.exports = function(app) {
         }
         // -------------------------------
       },
-      async tags(parent, {id}, {pgResource}, info) {
+      async tags(parent, { id }, { pgResource }, info) {
         try {
           const tags = await pgResource.getTags()
           return tags
-        } catch (e){
-          throw "no tags"
+        } catch (e) {
+          throw 'no tags'
         }
         // @TODO: Replace this mock return statement with the correct tags from Postgres
-        
+
         // -------------------------------
       }
     },
@@ -93,17 +93,17 @@ module.exports = function(app) {
        *
        */
       // @TODO: Uncomment these lines after you define the User type with these fields
-      items(parent, args, {pgResource}, info  ) {
+      items(parent, args, { pgResource }, info) {
         const items = pgResource.getItemsForUser(parent.id)
-      //   // @TODO: Replace this mock return statement with the correct items from Postgres
-         return items;
-      //   // -------------------------------
-       },
-      borrowed(parent, args, {pgResource}, info) {
+        //   // @TODO: Replace this mock return statement with the correct items from Postgres
+        return items
+        //   // -------------------------------
+      },
+      borrowed(parent, args, { pgResource }, info) {
         const borrowed = pgResource.getBorrowedItemsForUser(parent.id)
-      //   // @TODO: Replace this mock return statement with the correct items from Postgres
-      return borrowed;
-      //   // -------------------------------
+        //   // @TODO: Replace this mock return statement with the correct items from Postgres
+        return borrowed
+        //   // -------------------------------
       }
       // -------------------------------
     },
@@ -120,27 +120,27 @@ module.exports = function(app) {
        *
        */
       // @TODO: Uncomment these lines after you define the Item type with these fields
-      async itemowner(parent, args, {pgResource}, info) {
-      //   // @TODO: Replace this mock return statement with the correct user from Postgres
+      async itemowner(parent, args, { pgResource }, info) {
+        //   // @TODO: Replace this mock return statement with the correct user from Postgres
         const itemowner = pgResource.getUserById(parent.ownerid)
         return itemowner
-      //   // -------------------------------
-       },
-      async tags(parent, args, {pgResource}, info) {
+        //   // -------------------------------
+      },
+      async tags(parent, args, { pgResource }, info) {
         // @TODO: Replace this mock return statement with the correct tags for the queried Item from Postgres
         const tagslist = pgResource.getTagsForItem(parent.id)
         return tagslist
         // -------------------------------
       },
-      async borrower(parent, args, {pgResource}, info) {
-      //   /**
-      //    * @TODO: Replace this mock return statement with the correct user from Postgres
-      //    * or null in the case where the item has not been borrowed.
-      //    */
-      const borrower = pgResource.getUserById(parent.borrowerid)
-      return borrower
-      //   // -------------------------------
-      },
+      async borrower(parent, args, { pgResource }, info) {
+        //   /**
+        //    * @TODO: Replace this mock return statement with the correct user from Postgres
+        //    * or null in the case where the item has not been borrowed.
+        //    */
+        const borrower = pgResource.getUserById(parent.borrowerid)
+        return borrower
+        //   // -------------------------------
+      }
       // async imageurl({ imageurl, imageid, mimetype, data }) {
       //   if (imageurl) return imageurl
       //   if (imageid) {
@@ -169,11 +169,11 @@ module.exports = function(app) {
          *  destructuring should look like.
          */
 
-        image = await image
+        const image = await args.image
         const user = await jwt.decode(context.token, app.get('JWT_SECRET'))
         const newItem = await context.pgResource.saveNewItem({
           item: args.item,
-          image: args.image,
+          image: image,
           user
         })
         return newItem

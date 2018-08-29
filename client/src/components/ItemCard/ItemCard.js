@@ -19,7 +19,7 @@ const ItemCard = ({ classes, item }) => {
       <Card className={classes.card}>
         <CardMedia
           className={classes.media}
-          image="https://dummyimage.com/350x250/f9a825/000000&text=select+your+image+"
+          image={item.imageurl}
         />
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">

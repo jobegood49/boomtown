@@ -20,12 +20,6 @@ const GET_TAGS = gql`
 `;
 
 const Home = ({ classes }) => (
-  <Query query={GET_TAGS}>
-  {({loading,error,data})=>{
-    if(loading) return 'Loading...';
-    if(error) return `Error! ${error.message}`
-
-  return(
     <Grid
       container
       className={classes.root}
@@ -33,9 +27,6 @@ const Home = ({ classes }) => (
       alignItems="center"
       justify="center"
     >
-    {
-      console.log(data)
-    }
       <Grid item xs={12} sm={12} md={6}>
         <Typography
           variant="button"
@@ -54,9 +45,7 @@ const Home = ({ classes }) => (
         </Typography>
         <AccountForm />
       </Grid>
-    </Grid>);}}
-    </Query>
-  );
+    </Grid>);
   
 
 export default withStyles(styles)(Home)

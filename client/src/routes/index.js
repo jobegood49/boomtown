@@ -51,8 +51,7 @@ export default () => (
    */
 }
 
-//     <Fragment>
-//       {/* @TODO: Add your menu component here */}
+//     <Fragment>//       {/* @TODO: Add your menu component here */}
 
 //       <HeaderBar />
 

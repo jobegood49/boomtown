@@ -23,6 +23,7 @@ import ItemCard from '../ItemCard';
 import { connect } from 'react-redux';
 
 const ShareItemPreview = props => {
+  console.log(props)
   return <ItemCard item={props.shareItemPreview} />;
 };
 

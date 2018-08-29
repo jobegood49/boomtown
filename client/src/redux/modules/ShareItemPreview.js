@@ -19,17 +19,21 @@ const initialState = {
     item: 'Name your item',
     description: "describe you item",
     tags: [],
-    imageUrl: "http://via.placeholder.com/350x250",
+    imageurl: "http://via.placeholder.com/350x250",
     created: new Date(),
-    itemowner: {}
+    itemowner: {
+        fullname:'',
+        email:''
+    }
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
       case RESET_IMAGE: {
-        return { ...state, imageUrl: initialState.imageUrl };
+        return { ...state, imageurl: initialState.imageurl };
       }
       case UPDATE_NEW_ITEM: {
+        console.log("hello this is the image url",initialState.imageurl)
         return { ...state, ...action.payload };
       }
       case RESET_NEW_ITEM: {

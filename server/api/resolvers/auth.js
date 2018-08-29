@@ -42,7 +42,7 @@ function generateToken(user, secret) {
    */
   // Refactor this return statement to return the cryptographic hash (the Token)
   // console.log('gentokenuser', user)
-  const token = jwt.sign({ id, fullname, email, bio }, secret, { expiresIn: '1h' })
+  const token = jwt.sign({ id, fullname, email, bio }, secret, { expiresIn: '2h' })
   console.log('returning a token', token)
   return token
   // -------------------------------
