@@ -5,7 +5,8 @@ import { withStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import AuthContainer from '../../containers/AuthContainer'
-import client from '../../apollo' 
+import client from '../../apollo'
+import { Link } from 'react-router-dom'
 
 
 const styles = {
@@ -61,16 +62,17 @@ class MenuButton extends Component {
           open={open}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+          <MenuItem onClick={this.handleClose} component={Link} to="/profile">
+            Your Profile
+          </MenuItem>
 
           <AuthContainer>
             {({ logout }) => {
               return (
                 <MenuItem
                   onClick={() => {
-
-                    console.log("logout button hit")
-                    logout.mutation().then(() => client.resetStore());
+                    console.log('logout button hit')
+                    logout.mutation().then(() => client.resetStore())
                   }}
                 >
                   Sign Out
