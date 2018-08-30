@@ -12,6 +12,7 @@ import Logo from '../../images/boomtown.svg'
 import AddIcon from '@material-ui/icons/AddCircle'
 import { Link } from 'react-router-dom'
 import ShareButton from '../ShareButton'
+import MenuButton from '../MenuButton'
 
 import styles from './styles'
 
@@ -20,12 +21,15 @@ const HeaderBar = ({ classes }) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.toolBar}>
-          <Link to="/">
+          <Link to="/items">
             <img src={Logo} alt="Boomtown Logo" className={classes.logo} />
           </Link>
-          <Link to="/share" className={classes.shareButton}>
-            <ShareButton />
-          </Link>
+          <div className={classes.rightSideToolBar}>
+            <Link to="/share" className={classes.shareButton}>
+              <ShareButton />
+            </Link>
+            <MenuButton />
+          </div>
         </Toolbar>
       </AppBar>
     </div>

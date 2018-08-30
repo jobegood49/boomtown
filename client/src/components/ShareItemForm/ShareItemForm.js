@@ -2,7 +2,16 @@ import React, { Component, Fragment } from 'react'
 import { FormSpy, Form, Field } from 'react-final-form'
 import ItemsContainer from '../../containers/ItemsContainer'
 
-import { Button, TextField, Checkbox, InputLabel ,Select,MenuItem,ListItemText,Input} from '@material-ui/core'
+import {
+  Button,
+  TextField,
+  Checkbox,
+  InputLabel,
+  Select,
+  MenuItem,
+  ListItemText,
+  Input
+} from '@material-ui/core'
 import { connect } from 'react-redux'
 
 import {
@@ -24,13 +33,13 @@ class ShareItemForm extends Component {
   handleCheckbox(event) {
     this.setState({
       selectedTags: event.target.value
-    });
+    })
   }
   generateTagsText(tags, selected) {
     return tags
       .map(t => (selected.indexOf(t.id) > -1 ? t.title : false))
       .filter(e => e)
-      .join(', ');
+      .join(', ')
   }
 
   applyTags(tags) {
@@ -39,9 +48,8 @@ class ShareItemForm extends Component {
       tags
         .filter(t => this.state.selectedTags.indexOf(t.id) > -1)
         .map(t => ({ title: t.title, id: t.id }))
-    );
+    )
   }
-  
 
   async saveItem(values, tags, addItem) {
     const {
@@ -63,7 +71,7 @@ class ShareItemForm extends Component {
       })
       this.setState({ done: true })
     } catch (e) {
-      console.log("IN SAVE ITEM8888",e, values, tags, addItem )
+      console.log('IN SAVE ITEM8888', e, values, tags, addItem)
     }
   }
   onSubmit = values => {
@@ -97,7 +105,7 @@ class ShareItemForm extends Component {
     return []
   }
 
-  dispatchUpdate(values, tags,updateNewItem) {
+  dispatchUpdate(values, tags, updateNewItem) {
     if (!values.imageurl && this.state.fileSelected) {
       this.getBase64Url().then(imageurl => {
         updateNewItem({
@@ -116,14 +124,7 @@ class ShareItemForm extends Component {
 
     return (
       <ItemsContainer>
-        {({
-          addItem,
-          tagData: {
-            loading,
-            error,
-            tags
-          }
-        }) => {
+        {({ addItem, tagData: { loading, error, tags } }) => {
           if (loading) {
             return 'Content Loading...'
           }
@@ -133,9 +134,9 @@ class ShareItemForm extends Component {
           return (
             <Form
               onSubmit={values => {
-                console.log("values", values)
-                console.log("tags", tags)
-                console.log("add item", addItem)
+                console.log('values', values)
+                console.log('tags', tags)
+                console.log('add item', addItem)
                 this.saveItem(values, tags, addItem)
               }}
               validate={this.validate}
@@ -145,7 +146,7 @@ class ShareItemForm extends Component {
                     subscription={{ values: true }}
                     component={({ values }) => {
                       if (values) {
-                        this.dispatchUpdate(values, tags,updateNewItem)
+                        this.dispatchUpdate(values, tags, updateNewItem)
                       }
                       return ''
                     }}
@@ -210,7 +211,7 @@ class ShareItemForm extends Component {
                       onChange={event => this.handleCheckbox(event)}
                       input={<Input />}
                       renderValue={selected => {
-                        return this.generateTagsText(tags, selected);
+                        return this.generateTagsText(tags, selected)
                       }}
                     >
                       {tags &&
@@ -227,30 +228,10 @@ class ShareItemForm extends Component {
                       }
                     </Select>
                   </div>
-                  {/* {tags &&
-                    tags.map(tag => (
-                      <Field
-                        key={tag.id}
-                        name="tags"
-                        type="checkbox"
-                        value={JSON.stringify(tag)}
-                      >
-                        {({ input, meta }) => (
-                          <InputLabel>
-                            <Checkbox {...input} />
-                            {tag.title}
-                          </InputLabel>
-                        )}
-                      </Field>
-                    ))} */}
-                  <Field
-                    render={({ input, meta }) => (
-                      <Button type="submit" variant="contained" color="primary">
-                        Share
-                      </Button>
-                    )}
-                  />
-                  {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
+
+                  <Button type="submit" variant="contained" color="primary">
+                    Share
+                  </Button>
                 </form>
               )}
             />
