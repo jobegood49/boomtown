@@ -31,8 +31,8 @@ module.exports = function(app) {
     Query: {
       viewer(parent, args, context, info) {
         if (context.token) {
-          console.log('in resolvers index viewer', context.token)
-          console.log('viewer', args)
+          // console.log('in resolvers index viewer', context.token)
+          // console.log('viewer', args)
           return jwt.decode(context.token, app.get('JWT_SECRET'))
         }
         /**

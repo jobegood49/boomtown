@@ -4,6 +4,9 @@ import Menu from '@material-ui/core/Menu'
 import { withStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import AccountCircle from '@material-ui/icons/AccountCircle'
+import AuthContainer from '../../containers/AuthContainer'
+import client from '../../apollo' 
+
 
 const styles = {
   root: {
@@ -23,8 +26,8 @@ class MenuButton extends Component {
     anchorEl: null
   }
   handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+    this.setState({ anchorEl: event.currentTarget })
+  }
 
   handleClose = () => {
     this.setState({ anchorEl: null })
@@ -59,7 +62,22 @@ class MenuButton extends Component {
           onClose={this.handleClose}
         >
           <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-          <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+
+          <AuthContainer>
+            {({ logout }) => {
+              return (
+                <MenuItem
+                  onClick={() => {
+
+                    console.log("logout button hit")
+                    logout.mutation().then(() => client.resetStore());
+                  }}
+                >
+                  Sign Out
+                </MenuItem>
+              )
+            }}
+          </AuthContainer>
         </Menu>
       </div>
     )

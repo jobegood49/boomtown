@@ -121,9 +121,7 @@ export const ADD_ITEM_MUTATION = gql`
 export const LOGOUT_MUTATION = gql`
   mutation {
     # @TODO: Run the logout mutation.
-    mutation {
       logout
-    }
   }
 `
 

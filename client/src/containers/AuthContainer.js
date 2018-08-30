@@ -45,12 +45,14 @@ const login = ({ render }) => {
 };
 
 const logout = ({ render }) => {
+  console.log("this is the logout auth container")
   /**
    * @TODO: Use Apollo's <Mutation /> component to use the logout mutation.
    */
   return (
     <Mutation mutation={LOGOUT_MUTATION}>
       {(mutation, { data, loading, error }) =>
+      
         render({ mutation, data, loading, error })
       }
     </Mutation>

@@ -51,6 +51,7 @@ function generateToken(user, secret) {
 module.exports = function(app) {
   return {
     async signup(parent, args, context) {
+      console.log('lets try to sign up')
       try {
         /**
          * @TODO: Authentication - Server
@@ -119,6 +120,8 @@ module.exports = function(app) {
     },
 
     logout(parent, args, context) {
+      console.log('we are hitting the logout')
+
       context.req.res.clearCookie(app.get('JWT_COOKIE_NAME'))
       return true
     }
