@@ -15,7 +15,6 @@ const signup = ({ render }) => {
   /**
    * @TODO: Use Apollo's <Mutation /> component to use the signup mutation.
    */
-  console.log("in signup")
   return (
     <Mutation
       mutation={SIGNUP_MUTATION}
@@ -45,7 +44,6 @@ const login = ({ render }) => {
 };
 
 const logout = ({ render }) => {
-  console.log("this is the logout auth container")
   /**
    * @TODO: Use Apollo's <Mutation /> component to use the logout mutation.
    */

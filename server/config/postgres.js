@@ -20,5 +20,4 @@ module.exports = function(app) {
     connectionTimeoutMillis: 2000
 
   })
-  console.log("connected to the database")
 }

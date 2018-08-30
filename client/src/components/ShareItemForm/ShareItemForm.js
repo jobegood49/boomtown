@@ -71,7 +71,6 @@ class ShareItemForm extends Component {
       })
       this.setState({ done: true })
     } catch (e) {
-      console.log('IN SAVE ITEM8888', e, values, tags, addItem)
     }
   }
   onSubmit = values => {

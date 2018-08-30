@@ -139,7 +139,6 @@ class AccountForm extends Component {
                     </Grid>
                   </FormControl>
                   <Typography className={classes.errorMessage}>
-                    <pre>{JSON.stringify(values, 0, 2)}</pre>
                     {/* @TODO: Display sign-up and login errors */}
                   </Typography>
                 </form>

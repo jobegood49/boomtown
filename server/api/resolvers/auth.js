@@ -30,7 +30,6 @@ function setCookie({ tokenName, token, res }) {
 
 function generateToken(user, secret) {
   const { id, email, fullname, bio } = user // Omit the password from the token
-  console.log('a token was generated', secret, user)
   /**
    *  @TODO: Authentication - Server
    *
@@ -42,8 +41,9 @@ function generateToken(user, secret) {
    */
   // Refactor this return statement to return the cryptographic hash (the Token)
   // console.log('gentokenuser', user)
-  const token = jwt.sign({ id, fullname, email, bio }, secret, { expiresIn: '2h' })
-  console.log('returning a token', token)
+  const token = jwt.sign({ id, fullname, email, bio }, secret, {
+    expiresIn: '2h'
+  })
   return token
   // -------------------------------
 }
@@ -51,7 +51,6 @@ function generateToken(user, secret) {
 module.exports = function(app) {
   return {
     async signup(parent, args, context) {
-      console.log('lets try to sign up')
       try {
         /**
          * @TODO: Authentication - Server
@@ -66,7 +65,7 @@ module.exports = function(app) {
         // @TODO: Use bcrypt to generate a cryptographic hash to conceal the user's password before storing it.
         const hashedPassword = await bcrypt.hash(args.user.password, 10)
         // -------------------------------
-        console.log("hashed the password with",args)
+        console.log('hashed the password with', args)
         const user = await context.pgResource.createUser({
           fullname: args.user.fullname,
           email: args.user.email,
@@ -89,12 +88,9 @@ module.exports = function(app) {
 
     async login(parent, args, context) {
       try {
-        console.log("in the login resolver", args)
         const user = await context.pgResource.getUserAndPasswordForVerification(
           args.user.email
         )
-
-        console.log('user from login', user)
 
         /**
          *  @TODO: Authentication - Server
@@ -120,8 +116,6 @@ module.exports = function(app) {
     },
 
     logout(parent, args, context) {
-      console.log('we are hitting the logout')
-
       context.req.res.clearCookie(app.get('JWT_COOKIE_NAME'))
       return true
     }

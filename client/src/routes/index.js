@@ -10,7 +10,6 @@ import { ViewerContext } from '../context/ViewerProvider'
 export default () => (
   <ViewerContext.Consumer>
     {({ loading, viewer, error }) => {
-      console.log('THIS IS THE VIEWER CONTEXT', viewer)
       if (loading) return ''
       if (!viewer) {
         return (

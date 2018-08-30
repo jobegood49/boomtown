@@ -71,7 +71,6 @@ class MenuButton extends Component {
               return (
                 <MenuItem
                   onClick={() => {
-                    console.log('logout button hit')
                     logout.mutation().then(() => client.resetStore())
                   }}
                 >

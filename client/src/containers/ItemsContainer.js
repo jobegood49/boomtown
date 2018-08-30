@@ -66,7 +66,6 @@ const tagData = ({ render }) => {
   /**
    * @TODO: Use Apollo's <Query /> component to fetch all the tags.
    */
-  console.log(ALL_TAGS_QUERY)
 
   return (
     <Query query={ALL_TAGS_QUERY}>
